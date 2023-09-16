@@ -1,0 +1,21 @@
+0.7
+2020.2
+Oct 14 2022
+05:20:55
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/TBs/top_tb.v,1694871535,verilog,,,,top_tb,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/Vivado/Pipelined_MIPS_Processor.sim/sim_1/behav/xsim/glbl.v,1665704903,verilog,,,,glbl,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/addr.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/alu.v,,addr,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/alu.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/alu_decoder.v,,alu,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/alu_decoder.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/control_unit.v,,alu_decoder,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/control_unit.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/data_mem.v,,control_unit,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/data_mem.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/data_path.v,,data_mem,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/data_path.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/instr_mem.v,,data_path,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/instr_mem.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/instruction_fetch_unit.v,,instr_mem,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/instruction_fetch_unit.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/main_decoder.v,,instruction_fetch_unit,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/main_decoder.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/mips.v,,main_decoder,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/mips.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/mux.v,,mips,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/mux.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/prg_cntr.v,,mux,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/prg_cntr.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/reg_file.v,,prg_cntr,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/reg_file.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/sign_extend.v,,reg_file,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/sign_extend.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/top_module.v,,sign_extend,,,,,,,,
+F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/top_module.v,1694870985,verilog,,F:/Digital_Track/04_STM_training/Pipelined_MIPS_Processor/TBs/top_tb.v,,top_module,,,,,,,,
