@@ -1,29 +1,3 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 03/04/2023 07:29:27 AM
-// Design Name: 
-// Module Name: instr_mem
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
-// Define the instruction memory module with three parameters:
-// - ADDRESS_WIDTH: the number of bits in the memory address
-// - INSTR_WIDTH: the number of bits in each instruction
-// - PROGRAM: the name of the file containing the program instructions
 module instr_mem
     #(
         parameter ADDRESS_WIDTH = 32,

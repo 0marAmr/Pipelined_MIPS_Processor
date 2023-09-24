@@ -1,26 +1,4 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 02/22/2023 07:58:00 PM
-// Design Name: 
-// Module Name: single_port_BRAM
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
-module data_mem
+module DATA_MEM
 #(parameter ADDRESS_WIDTH = 32, 
             DATA_WIDTH = 32
     )(
@@ -35,9 +13,7 @@ module data_mem
 
     // memory
     reg [DATA_WIDTH-1: 0] data_mem  [DEPTH-1: 0] ;
-    reg [DATA_WIDTH-1: 0] data ;
-
-    integer i;
+    reg [DATA_WIDTH-1: 0] data;
 
     always @(posedge clk) begin
         if(write_en) begin

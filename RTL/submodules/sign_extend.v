@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 03/04/2023 11:53:54 AM
+// Create Date: 03/07/2023 08:06:15 AM
 // Design Name: 
-// Module Name: addr
+// Module Name: sign_extend
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,13 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module addr
-#(  parameter N = 32  // N is the number of bits in the adder
-)(
-    input [N-1:0] X, Y,  // the two input vectors
-    output [N-1:0] Z    // the sum output vector
+module SIGN_EXT(
+    input  wire [15:0] instr_part,                        // Input instruction part with most significant bits unused
+    output wire [31:0] data_out_signed               // Output signed data with the specified immediate value
     );
-    
-    assign Z = X + Y;
+
+    assign data_out_signed = {{16{instr_part[15]}}, instr_part};
+
 endmodule
+
 
