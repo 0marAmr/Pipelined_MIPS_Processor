@@ -16,6 +16,7 @@ module EXECUTE_STAGE #(
     input  wire                         i_RegDstE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RtE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RdE,
+    input  wire  [RF_ADDR_WIDTH-1:0]    i_RsE, ///////////////added
     output wire  [RF_ADDR_WIDTH-1:0]    o_WriteRegE,
     output wire  [DATA_WIDTH-1:0]       o_WriteDataE,
     output wire  [DATA_WIDTH-1:0]       o_ALUOutE
