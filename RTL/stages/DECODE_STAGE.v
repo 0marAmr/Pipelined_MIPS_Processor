@@ -10,14 +10,15 @@ module DECODE_STAGE #(
     input   wire                      i_RegWriteW,
     input   wire                      i_ForwardAD,
     input   wire                      i_ForwardBD,
+    input   wire [1:0]                i_PC_SELD,  //from control unit
     input   wire [INSTR_WIDTH-1:0]    i_InstrD,
     input   wire [DATA_WIDTH-1:0]     i_ALUOutM,
     input   wire [DATA_WIDTH-1:0]     i_ResultW,
+    input   wire [ADDRESS_WIDTH-1:0]  i_PCPlus4D,
     output  wire [DATA_WIDTH-1:0]     o_SrcAD,
     output  wire [DATA_WIDTH-1:0]     o_SrcBD,
     output  wire [ADDRESS_WIDTH-1:0]  o_SignImmD,
-    output  wire [ADDRESS_WIDTH-1:0]  o_PCPlus4D,
-    output  wire [ADDRESS_WIDTH-1:0]  o_PCBranchD,
+    output  wire [ADDRESS_WIDTH-1:0]  o_PCD,
     output  wire                      o_EqualD
 
 );
@@ -44,11 +45,12 @@ module DECODE_STAGE #(
         .data_out_signed(o_SignImmD)
     ); 
     
+	wire [ADDRESS_WIDTH-1:0] o_PCBranchD;
     ADDER #(
         .N(ADDRESS_WIDTH)
     ) PC_BRANCH_ADDER (
         .X((o_SignImmD<<2'd2)),
-        .Y(o_PCPlus4D),
+        .Y(i_PCPlus4D),
         .Z(o_PCBranchD)
     );
 
@@ -70,6 +72,26 @@ module DECODE_STAGE #(
         .data_false(o_SrcBD),
         .sel(i_ForwardBD),
         .data_out(CmpValBD)
+    );
+	
+	wire [ADDRESS_WIDTH-1:0] PC_jD;
+	Concatenate concat_block (
+    .in1(2'b00), 
+    .in2(i_InstrD[25:0]), 
+    .in3(i_PCPlus4D[31:28]), 
+    .CAT_OUT(PC_jD)
+    );
+	
+
+	 mux_4_to_1 #(
+        .N(ADDRESS_WIDTH)
+    ) PC_MUX (
+        .sel(i_PC_SELD),
+        .in0(o_PCBranchD),
+        .in1(CmpValAD),
+        .in2(PC_jD),
+        .in3(32'b0),  // Not Connected
+        .out(o_PCD)
     );
 
     assign o_EqualD = (CmpValAD == CmpValBD);

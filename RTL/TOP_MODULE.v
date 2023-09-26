@@ -138,6 +138,7 @@ module TOP_MODULE #(
         .i_ForwardBE(ForwardBE),
         .i_ALUSrcE(ALUSrcE),
         .i_RegDstE(RegDstE),
+        .i_RsE(RsE),
         .i_RtE(RtE),
         .i_RdE(RdE),
         .o_WriteRegE(WriteRegE),

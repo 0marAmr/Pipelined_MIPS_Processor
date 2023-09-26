@@ -5,9 +5,9 @@ module FETCH_STAGE #(
 )(
     input   wire                      i_CLK,
     input   wire                      i_RST,
-    input   wire [ADDRESS_WIDTH-1:0]  i_PCBranchD,
+    input   wire [ADDRESS_WIDTH-1:0]  i_PCD,
     input   wire                      i_StallF,
-    input   wire                      i_PCSrcD,
+    input   wire                      i_PCSrcD,  //from control unit
     output  wire [INSTR_WIDTH-1:0]    o_InstrF,
     output  wire [ADDRESS_WIDTH-1: 0] o_PCPlus4F
 );
@@ -26,9 +26,9 @@ module FETCH_STAGE #(
         .pc(PCF)           // Current PC output
     );
 
-    // Select the next PC value based on the instruction type
+    // Select the next PC value based on the instruction type       ///////////////here//////////////////
     mux_2_to_1 pc_next_mux (
-        .data_true(i_PCBranchD),  // Target PC
+        .data_true(i_PCD),  // Target PC
         .data_false(o_PCPlus4F),  // PC+4
         .sel(i_PCSrcD),  // Source of the next PC value
         .data_out(PC_Next)  // Next PC output
