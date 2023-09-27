@@ -44,9 +44,6 @@ always@(*)  begin
         'b110_xxxxxx : begin
             ALUControl = XOR;
         end  
-        'b111_xxxxxx : begin
-            ALUControl = MULT;
-        end  		
         'b010_001000 : begin /*Jump register*/
             ALUControl = 4'bxxxx;
         end           

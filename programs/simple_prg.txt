@@ -1,0 +1,9 @@
+// restore the instruction memory segment and PC to zero to test the program
+16  // 20C70016
+00
+C7
+20
+40  // AFC71F40
+1F
+C7
+AF

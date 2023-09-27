@@ -18,7 +18,7 @@ module MAIN_DECODER(
                         SW      = 6'b101011,
                         BEQ     = 6'b000100,
                         ADDI    = 6'b001000,
-                        JMP     = 6'b000010;
+                        JMP     = 6'b000010,
                         HALT    = 6'b111111;
 
     always @(*) begin 
@@ -58,7 +58,7 @@ module MAIN_DECODER(
                 jump = 'b1;
             end
             HALT: begin
-                load = 'b0
+                load = 'b0;
             end
         endcase
     end

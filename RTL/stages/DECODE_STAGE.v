@@ -18,7 +18,7 @@ module DECODE_STAGE #(
     output  wire [DATA_WIDTH-1:0]     o_SrcAD,
     output  wire [DATA_WIDTH-1:0]     o_SrcBD,
     output  wire [ADDRESS_WIDTH-1:0]  o_SignImmD,
-    output  wire [ADDRESS_WIDTH-1:0]  o_PCD,
+    output  wire [ADDRESS_WIDTH-1:0]  o_PCNextD,
     output  wire                      o_EqualD
 
 );
@@ -45,13 +45,13 @@ module DECODE_STAGE #(
         .data_out_signed(o_SignImmD)
     ); 
     
-	wire [ADDRESS_WIDTH-1:0] o_PCBranchD;
+	wire [ADDRESS_WIDTH-1:0] PCBranchD;
     ADDER #(
         .N(ADDRESS_WIDTH)
     ) PC_BRANCH_ADDER (
         .X((o_SignImmD<<2'd2)),
         .Y(i_PCPlus4D),
-        .Z(o_PCBranchD)
+        .Z(PCBranchD)
     );
 
     wire [DATA_WIDTH-1:0] CmpValAD;
@@ -74,24 +74,15 @@ module DECODE_STAGE #(
         .data_out(CmpValBD)
     );
 	
-	wire [ADDRESS_WIDTH-1:0] PC_jD;
-	Concatenate concat_block (
-    .in1(2'b00), 
-    .in2(i_InstrD[25:0]), 
-    .in3(i_PCPlus4D[31:28]), 
-    .CAT_OUT(PC_jD)
-    );
-	
-
 	 mux_4_to_1 #(
         .N(ADDRESS_WIDTH)
     ) PC_MUX (
         .sel(i_PC_SELD),
-        .in0(o_PCBranchD),
+        .in0(PCBranchD),
         .in1(CmpValAD),
-        .in2(PC_jD),
+        .in2({i_PCPlus4D[31:28], i_InstrD[25:0], 2'b00}),
         .in3(32'b0),  // Not Connected
-        .out(o_PCD)
+        .out(o_PCNextD)
     );
 
     assign o_EqualD = (CmpValAD == CmpValBD);
