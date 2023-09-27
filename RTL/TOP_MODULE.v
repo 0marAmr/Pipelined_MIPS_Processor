@@ -201,10 +201,23 @@ module TOP_MODULE #(
         .o_MemtoRegW(MemtoRegW)
     );
 
-    WRITE_BACK_STAGE WB_ST (
+    WRITE_BACK_STAGE U8_WB_ST (
         .i_ALUOutW(ALUOutW),
         .i_ReadDataW(ReadDataW),
         .i_MemtoRegW(MemtoRegW),
         .o_ResultW(ResultW)
+    );
+
+    CONTROL_UNIT U9_CTRL_UNIT(
+        .i_Op(InstrD[31:26]),
+        .i_funct(InstrD[5:0]),
+        .o_RegWriteD(RegWriteD),
+        .o_MemtoRegD(MemtoRegD),
+        .o_MemWriteD(MemWriteD),
+        .o_ALUControlD(ALUControlD),
+        .o_ALUSrcD(ALUSrcD),
+        .o_RegDstD(RegDstD),
+        .o_BranchD(BranchD),
+        .o_JumpD(Jump)
     );
 endmodule
