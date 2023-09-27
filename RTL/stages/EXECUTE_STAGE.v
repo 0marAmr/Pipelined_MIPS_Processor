@@ -9,7 +9,7 @@ module EXECUTE_STAGE #(
     input  wire  [DATA_WIDTH-1:0]       i_ResultW,
     input  wire  [DATA_WIDTH-1:0]       i_ALUOutM,
     input  wire  [ADDRESS_WIDTH-1:0]    i_SignImmE,
-    input  wire  [2:0]                  i_ALUControlE,
+    input  wire  [3:0]                  i_ALUControlE,
     input  wire  [2:0]                  i_ForwardAE,
     input  wire  [2:0]                  i_ForwardBE,
     input  wire                         i_ALUSrcE,
@@ -17,6 +17,7 @@ module EXECUTE_STAGE #(
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RtE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RdE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RsE, ///////////////added
+    input  wire  [4:0]                  i_ShamtD,
     output wire  [RF_ADDR_WIDTH-1:0]    o_WriteRegE,
     output wire  [DATA_WIDTH-1:0]       o_WriteDataE,
     output wire  [DATA_WIDTH-1:0]       o_ALUOutE
@@ -28,10 +29,12 @@ module EXECUTE_STAGE #(
     ALU #(
         .WIDTH(DATA_WIDTH) 
     ) alu_inst (
-        .A(OperAE),             
-        .B(OperBE),             
-        .sel(i_ALUControlE),     
-        .alu_result(o_ALUOutE)
+
+        .Operand1(OperAE),
+        .Operand2(OperBE),
+        .Cntrl(i_ALUControlE),
+        .Shamt(i_ShamtD),
+        .ALU_OUT(o_ALUOutE)
     );
 
     mux_4_to_1 #(

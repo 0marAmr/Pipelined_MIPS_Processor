@@ -15,11 +15,13 @@ module TOP_MODULE #(
     wire [ADDRESS_WIDTH-1:0]    PCPlus4F;
     wire StallF;
     wire PCSrcD;
+    wire JumpD;
 
     FETCH_STAGE U0_FET_ST(
         .i_CLK(CLK),
         .i_RST(RST),
         .i_PCBranchD(PCBranchD),
+        .i_JumpD(JumpD),
         .i_StallF(StallF),
         .i_PCSrcD(PCSrcD),
         .o_InstrF(InstrF),
@@ -29,16 +31,18 @@ module TOP_MODULE #(
     wire StallD;
     wire [ADDRESS_WIDTH-1:0]    PCPlus4D;
     wire [INSTR_WIDTH-1:0]      InstrD;
-
+    wire [4:0]                  ShamtD;
     fetch_to_decode_reg U1_FET_TO_DEC(
         .i_CLK(CLK),
         .i_RST(RST),
         .i_n_EN(StallD),
         .i_CLR(PCSrcD),
         .i_PCPlus4F(PCPlus4F),
-        .i_InstrF(InstrD),
+        .i_InstrF(InstrF),
+        .i_ShamtF(InstrF[10:6]),
         .o_PCPlus4D(PCPlus4D),
-        .o_InstrD(InstrD)
+        .o_InstrD(InstrD),
+        .o_ShamtD(ShamtD)
     );
 
     wire [RF_ADDR_WIDTH-1:0] WriteRegW;
