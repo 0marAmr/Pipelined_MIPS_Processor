@@ -2,7 +2,7 @@ module Hazard_unit #(
 parameter RF_ADDR_WIDTH = 5
 )(
 //control unit outputs
-input	wire						BranchD,   //from control unit : BranchD = 1 in case of a bltz,beq,bne,blez or bgtz instr
+input	wire						BranchD,   //in case a branch instr is being decoded
 //pipeline registers
 input	wire	[RF_ADDR_WIDTH-1:0]	RsD,RtD,
 input	wire	[RF_ADDR_WIDTH-1:0]	RsE,RtE,
@@ -15,8 +15,8 @@ output	wire						StallF,StallD,
 output	reg							ForwardAD,ForwardBD,   //mux selectors for sources to be compared, i case it is a branch instr
 output	wire						FlushE,
 output	reg		[1:0]				ForwardAE,ForwardBE,   //mux selectors for ALU sources
-input	wire						JrD,                  //from control unit : JrD = 1 in case of a JR OR a JALR
-input	wire						JD,				      //from control unit : JD = 1 in case of a J OR a JAL
+input	wire						JrD,                  //JrD = 1 in case of JR OR JALR
+input	wire						JD,				      //JD = 1 in case of J OR JAL
 input	wire						i_ALUSrcD
 );
 
@@ -81,7 +81,7 @@ always @(*)begin
 	end
 	
 //Rt
-	if(branch_forward_cond_Rt)begin
+	if(branch_forward_cond_Rs)begin
 		ForwardBD = 'd1;
 	end
 	else begin
@@ -92,17 +92,17 @@ end
 
 //stall consitions
 assign lwstall_cond  = (MemtoRegE && (((RsD != 'd0) && (RsD == RtE)) || ((RtD != 'd0) && (RtD == RtE) && !i_ALUSrcD && !(JrD))) ) && !(JD);
-assign branchstall_cond1  = BranchD && RegWriteE && (((RsD != 'd0) && (RsD == WriteRegE)) || ((RtD != 'd0) && (RtD == WriteRegE)));
-assign branchstall_cond2  = BranchD && MemtoRegM && (((RsD != 'd0) && (RsD == WriteRegM)) || ((RtD != 'd0) && (RtD == WriteRegM)));
-assign jrstall_cond1 = (JrD) && RegWriteE && ((RsD != 'd0) && (RsD == WriteRegE)) ;
-assign jrstall_cond2 = (JrD) && MemtoRegM && ((RsD != 'd0) && (RsD == WriteRegM));
+assign branchstall_cond1  = BranchD && RegWriteE (((RsD != 'd0) && (RsD == WriteRegE)) || ((RtD != 'd0) && (RtD == WriteRegE)));
+assign branchstall_cond2  = BranchD && MemtoRegM (((RsD != 'd0) && (RsD == WriteRegM)) || ((RtD != 'd0) && (RtD == WriteRegM)));
+assign jrstall_cond1 = (JrD) && RegWriteE ((RsD != 'd0) && (RsD == WriteRegE)) ;
+assign jrstall_cond2 = (JrD) && MemtoRegM ((RsD != 'd0) && (RsD == WriteRegM));
 
- 
+ &&
 //forwarding conditions
 assign forward_cond_Rs = {forward_cond_Rs_M,forward_cond_Rs_W};
 assign forward_cond_Rt = {forward_cond_Rt_M,forward_cond_Rt_W};
 assign forward_cond_Rs_M = RegWriteM && ((RsE != 'd0) && (RsE == WriteRegM))  ;
-assign forward_cond_Rt_M = RegWriteM && ((RtE != 'd0) && (RtE == WriteRegM));
+assign forward_cond_Rt_M = RegWriteM && ((RtE != 'd0) && (RtE == WriteRegM)));
 assign forward_cond_Rs_W = RegWriteW && ((RsE != 'd0) && (RsE == WriteRegW)) ;
 assign forward_cond_Rt_W = RegWriteW && ((RtE != 'd0) && (RtE == WriteRegW));
 assign branch_forward_cond_Rs = RegWriteM && ((RsD != 'd0) && (RsD == WriteRegM));
