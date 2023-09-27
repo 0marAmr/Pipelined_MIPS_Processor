@@ -7,7 +7,9 @@ module MAIN_DECODER(
     output reg regdst,
     output reg branch,
     output reg jump,
-    output reg [2:0] alu_op
+    output reg [2:0] alu_op,
+    output reg load
+
 );
 
 
@@ -17,6 +19,7 @@ module MAIN_DECODER(
                         BEQ     = 6'b000100,
                         ADDI    = 6'b001000,
                         JMP     = 6'b000010;
+                        HALT    = 6'b111111;
 
     always @(*) begin 
         regwrite = 'b0;
@@ -27,7 +30,7 @@ module MAIN_DECODER(
         branch = 'b0;
         jump = 'b0;
         alu_op = 'b0;
-        // load = 'b1;
+        load = 'b1;
         case (op)
             R_TYPE: begin
                 regwrite =  'b1;
@@ -53,6 +56,9 @@ module MAIN_DECODER(
             end
             JMP: begin
                 jump = 'b1;
+            end
+            HALT: begin
+                load = 'b0
             end
         endcase
     end

@@ -8,7 +8,8 @@ module CONTROL_UNIT(
     output   wire                       o_ALUSrcD,
     output   wire                       o_RegDstD,
     output   wire                       o_BranchD,
-    output   wire                       o_JumpD
+    output   wire                       o_JumpD,
+    output   wire                       o_LoadD
 );
 
     wire [2:0] alu_op;
@@ -21,7 +22,8 @@ module CONTROL_UNIT(
         .regdst(o_RegDstD),
         .branch(o_BranchD),
         .jump(o_JumpD),
-        .alu_op(alu_op)
+        .alu_op(alu_op),
+        .load(o_LoadD)
     );
 
     ALU_Controller (
