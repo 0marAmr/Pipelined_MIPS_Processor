@@ -16,6 +16,7 @@ module TOP_MODULE #(
     wire StallF;
     wire PCSrcD;
     wire JumpD;
+    wire LoadD;
 
     FETCH_STAGE U0_FET_ST(
         .i_CLK(CLK),
@@ -24,6 +25,7 @@ module TOP_MODULE #(
         .i_JumpD(JumpD),
         .i_StallF(StallF),
         .i_PCSrcD(PCSrcD),
+        .i_LoadD(LoadD),
         .o_InstrF(InstrF),
         .o_PCPlus4F(PCPlus4F)
     );
@@ -218,6 +220,7 @@ module TOP_MODULE #(
         .o_ALUSrcD(ALUSrcD),
         .o_RegDstD(RegDstD),
         .o_BranchD(BranchD),
-        .o_JumpD(Jump)
+        .o_JumpD(Jump),
+        .o_LoadD(LoadD)
     );
 endmodule

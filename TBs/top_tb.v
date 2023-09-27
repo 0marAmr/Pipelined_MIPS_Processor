@@ -1,55 +1,53 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 03/07/2023 02:52:36 AM
-// Design Name: 
-// Module Name: top_tb
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+/*test bench is automatically generated*/
+`timescale 1ps / 1ps
+module Top_TB;
 
+    // input signals
+    reg CLK;
+    reg RST;
 
-module top_tb();
-
-    reg clk, n_reset;
-
-    top_module dut (
-        .clk(clk),
-        .n_reset(n_reset)
+    // instantiation
+    TOP_MODULE DUT(
+        .CLK(CLK),
+        .RST(RST)
     );
 
-
     // clock signal
-    parameter PERIOD  = 20;
+    parameter PERIOD  = 10;
 
     initial begin
-        clk = 0;
-        forever #(PERIOD/2)  clk=~clk; 
+        CLK = 0;
+        forever begin 
+            #(PERIOD/2)  
+            CLK=~CLK; 
+        end
     end
 
-    // reset pulse
-    initial begin
-        n_reset = 1'b0;
-        #(PERIOD/2);
-        n_reset = 1'b1;
+    task rst;
+    begin
+        RST = 1;
+        @(negedge CLK);
+        RST = 0;
+        @(negedge CLK);
+        RST = 1;
     end
-
+    endtask
+    
+    parameter START_ADDR = 32'h0000_0000;
+    parameter END_ADDR = 32'h0000_0400;
+    integer i;
+    integer outfile;
+    // test vector generator
     initial begin
-        repeat(200)@(negedge clk);
+        rst();
+        repeat (500) @(negedge CLK);
+        outfile = $fopen("memory_contents.txt","w");
 
-        $finish;
+        for (i = START_ADDR; i <= END_ADDR; i = i +1) begin
+        $fdisplay(outfile,"address= 0x%h, data = %h,\t\t memory[%1d] = %d",i, DUT.U0_RAM.memory[i], i, DUT.U0_RAM.memory[i]);  //write as decimal
+        end
+         
+        $finish; 
     end
 
 endmodule
-

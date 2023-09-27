@@ -9,6 +9,7 @@ module FETCH_STAGE #(
     input   wire [ADDRESS_WIDTH-1:0]  i_PCBranchD,
     input   wire                      i_StallF,
     input   wire                      i_PCSrcD,  //from control unit
+    input   wire                      i_LoadD,
     output  wire [INSTR_WIDTH-1:0]    o_InstrF,
     output  wire [ADDRESS_WIDTH-1: 0] o_PCPlus4F
 );
@@ -23,7 +24,8 @@ module FETCH_STAGE #(
     ) program_counter (
         .CLK(i_CLK),        // Clock input
         .RST(i_RST),  // Reset input
-        .n_EN(i_StallF),      // Load input
+        .n_EN(i_StallF),     
+        .load(i_LoadD),
         .pc_next(PC_Next),  // Next PC output
         .pc(PCF)           // Current PC output
     );
