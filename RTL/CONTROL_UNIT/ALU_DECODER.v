@@ -1,6 +1,6 @@
 module ALU_Controller (
-    input wire [5:0] funct,     /*Connected to the function field of an R-type instruction (bits [5:0])*/
-    input wire [2:0] alu_op,      /*Derived by ALU_OP from the sequence controller*/
+    input wire [5:0] funct,     
+    input wire [2:0] alu_op,    
     output reg [3:0] ALUControl
 );
     
