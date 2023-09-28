@@ -5,7 +5,6 @@ module FETCH_STAGE #(
 )(
     input   wire                      i_CLK,
     input   wire                      i_RST,
-    input   wire                      i_JumpD,
     input   wire [ADDRESS_WIDTH-1:0]  i_PCNextD,
     input   wire                      i_StallF,
     input   wire                      i_PCSrcD, 

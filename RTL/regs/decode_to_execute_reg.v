@@ -14,26 +14,28 @@ module decode_to_execute_reg #(
     input   wire  [RF_ADDR_WIDTH-1:0]  i_RtD,
     input   wire  [RF_ADDR_WIDTH-1:0]  i_RdD,
     input   wire  [ADDRESS_WIDTH-1:0]  i_SignImmD,
+    input   wire  [ADDRESS_WIDTH-1:0]  i_PCPlus4D,
     output  reg   [DATA_WIDTH-1:0]     o_SrcAE,
     output  reg   [DATA_WIDTH-1:0]     o_SrcBE, 
     output  reg   [RF_ADDR_WIDTH-1:0]  o_RsE,
     output  reg   [RF_ADDR_WIDTH-1:0]  o_RtE,
     output  reg   [RF_ADDR_WIDTH-1:0]  o_RdE,
     output  reg   [ADDRESS_WIDTH-1:0]  o_SignImmE,
+    output  reg   [ADDRESS_WIDTH-1:0]  o_PCPlus4E,
     // Control Signals
     input   wire                       i_RegWriteD,
-    input   wire                       i_MemtoRegD,
+    input   wire  [1:0]                i_MemtoRegD,
     input   wire                       i_MemWriteD,
     input   wire  [2:0]                i_ALUControlD,
     input   wire                       i_ALUSrcD,
     input   wire                       i_RegDstD,
     output  reg                        o_RegWriteE,
-    output  reg                        o_MemtoRegE,
+    output  reg   [1:0]                o_MemtoRegE,
     output  reg                        o_MemWriteE,
     output  reg   [2:0]                o_ALUControlE,
     output  reg                        o_ALUSrcE,
     output  reg                        o_RegDstE
-    
+   
 );
 
     always @(posedge i_CLK or negedge i_RST) begin
@@ -50,6 +52,7 @@ module decode_to_execute_reg #(
             o_ALUControlE <= 'b0;
             o_ALUSrcE <= 'b0;
             o_RegDstE <= 'b0;
+            o_PCPlus4E <= 'b0;
         end
         else if (i_CLR) begin
             o_SrcAE <= 'b0;
@@ -64,6 +67,7 @@ module decode_to_execute_reg #(
             o_ALUControlE <= 'b0;
             o_ALUSrcE <= 'b0;
             o_RegDstE <= 'b0;
+            o_PCPlus4E <= 'b0;
         end
         else begin
             o_SrcAE <= i_SrcAD;
@@ -78,6 +82,7 @@ module decode_to_execute_reg #(
             o_ALUControlE <= i_ALUControlD;
             o_ALUSrcE <= i_ALUSrcD;
             o_RegDstE <= i_RegDstD;
+            o_PCPlus4E <= i_PCPlus4D;
         end
     end
 endmodule

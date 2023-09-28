@@ -13,7 +13,7 @@ module EXECUTE_STAGE #(
     input  wire  [2:0]                  i_ForwardAE,
     input  wire  [2:0]                  i_ForwardBE,
     input  wire                         i_ALUSrcE,
-    input  wire                         i_RegDstE,
+    input  wire  [1:0]                  i_RegDstE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RtE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RdE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RsE, ///////////////added
@@ -27,7 +27,7 @@ module EXECUTE_STAGE #(
     wire  [DATA_WIDTH-1:0] OperAE;
     wire  [DATA_WIDTH-1:0] OperBE;
     ALU #(
-        .WIDTH(DATA_WIDTH) 
+        .DATA_WIDTH(DATA_WIDTH) 
     ) alu_inst (
 
         .Operand1(OperAE),
@@ -68,13 +68,15 @@ module EXECUTE_STAGE #(
         .data_out(OperBE)
     );
 
-    mux_2_to_1 #(
-        .N(RF_ADDR_WIDTH)
+     mux_4_to_1 #(
+        .N(DATA_WIDTH)
     ) WriteRegMux (
-        .data_true(i_RdE),
-        .data_false(i_RtE),
         .sel(i_RegDstE),
-        .data_out(o_WriteRegE)
+        .in0(i_RtE),
+        .in1(i_RdE),
+        .in2(32'd31),
+        .in3(32'b0),  // Not Connected
+        .out(o_WriteRegE)
     );
 
 endmodule
