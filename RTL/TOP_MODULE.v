@@ -57,6 +57,9 @@ module TOP_MODULE #(
     wire [DATA_WIDTH-1:0]       SrcBD;
     wire [DATA_WIDTH-1:0]       SignImmD;
     wire EqualD;
+    wire GTZD;
+    wire LTZD;
+    wire LTEZD;
     wire [1:0] PC_SelD;
 
     DECODE_STAGE U2_DEC_ST (
@@ -75,7 +78,10 @@ module TOP_MODULE #(
         .o_SrcBD(SrcBD),
         .o_SignImmD(SignImmD),
         .o_PCNextD(PCNextD),
-        .o_EqualD(EqualD)
+        .o_EqualD(EqualD),
+        .o_GTZD(GTZD),
+        .o_LTZD(LTZD),
+        .o_LTEZD(LTEZD)
     );
 
     wire FlushE;
@@ -224,7 +230,11 @@ module TOP_MODULE #(
 
     CONTROL_UNIT U9_CTRL_UNIT(
         .i_Op(InstrD[31:26]),
-        .i_funct(InstrD[5:0]),
+        .i_funct(InstrD[5:0]),		
+        .i_EqualD(EqualD), 
+		.i_GTZD(GTZD), 
+		.i_LTZD(LTZD), 
+		.i_LTEZD(LTEZD),
         .o_RegWriteD(RegWriteD),
         .o_MemtoRegD(MemtoRegD),
         .o_MemWriteD(MemWriteD),
