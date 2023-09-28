@@ -10,19 +10,19 @@ module TOP_MODULE #(
 );
 
 
-    wire [ADDRESS_WIDTH-1:0]    PCBranchD;
+    wire [ADDRESS_WIDTH-1:0]    PCNextD;
     wire [INSTR_WIDTH-1:0]      InstrF;
     wire [ADDRESS_WIDTH-1:0]    PCPlus4F;
     wire StallF;
     wire PCSrcD;
     wire JumpD;
+    wire JumpRD;
     wire LoadD;
 
     FETCH_STAGE U0_FET_ST(
         .i_CLK(CLK),
         .i_RST(RST),
-        .i_PCBranchD(PCBranchD),
-        .i_JumpD(JumpD),
+        .i_PCNextD(PCNextD),
         .i_StallF(StallF),
         .i_PCSrcD(PCSrcD),
         .i_LoadD(LoadD),
@@ -57,22 +57,24 @@ module TOP_MODULE #(
     wire [DATA_WIDTH-1:0]       SrcBD;
     wire [DATA_WIDTH-1:0]       SignImmD;
     wire EqualD;
+    wire [1:0] PC_SelD;
 
     DECODE_STAGE U2_DEC_ST (
-        .i_CLK(clk),
+        .i_CLK(CLK),
         .i_RST(RST),
         .i_WriteRegW(WriteRegW),
         .i_RegWriteW(RegWriteW),
         .i_ForwardAD(ForwardAD),
         .i_ForwardBD(ForwardBD),
+        .i_PC_SelD(PC_SelD),
         .i_InstrD(InstrD),
         .i_ALUOutM(ALUOutM),
         .i_ResultW(ResultW),
+        .i_PCPlus4D(PCPlus4D),
         .o_SrcAD(SrcAD),
         .o_SrcBD(SrcBD),
         .o_SignImmD(SignImmD),
-        .o_PCPlus4D(PCPlus4D),
-        .o_PCBranchD(PCBranchD),
+        .o_PCNextD(PCNextD),
         .o_EqualD(EqualD)
     );
 
@@ -83,6 +85,7 @@ module TOP_MODULE #(
     wire [RF_ADDR_WIDTH-1:0]    RtE;
     wire [RF_ADDR_WIDTH-1:0]    RdE;
     wire [DATA_WIDTH-1:0]       SignImmE;
+    wire [ADDRESS_WIDTH-1:0]    PCPlus4E;
     wire RegWriteD;
     wire RegWriteE;
     wire MemtoRegD;
@@ -107,12 +110,14 @@ module TOP_MODULE #(
         .i_RtD(InstrD[20:16]),
         .i_RdD(InstrD[15:11]),
         .i_SignImmD(SignImmD),
+        .i_PCPlus4D(PCPlus4D),
         .o_SrcAE(SrcAE),
         .o_SrcBE(SrcBE),
         .o_RsE(RsE),
         .o_RtE(RtE),
         .o_RdE(RdE),
         .o_SignImmE(SignImmE),
+        .o_PCPlus4E(PCPlus4E),
         // Control Signals,
         .i_RegWriteD(RegWriteD),
         .i_MemtoRegD(MemtoRegD),
@@ -157,15 +162,18 @@ module TOP_MODULE #(
     wire MemWriteM;
     wire [DATA_WIDTH-1:0]    WriteDataM;
     wire [RF_ADDR_WIDTH-1:0] WriteRegM;
+    wire [ADDRESS_WIDTH-1:0] PCPlus4M;
     execute_to_memory_reg U5_EXC_TO_MEM (
         .i_CLK(CLK),
         .i_RST(RST),
         .i_ALUOutE(ALUOutE),
         .i_WriteDataE(WriteDataE),
         .i_WriteRegE(WriteRegE),
+        .i_PCPlus4E(PCPlus4E),
         .o_ALUOutM(ALUOutM),
         .o_WriteDataM(WriteDataM),
         .o_WriteRegM(WriteRegM),
+        .o_PCPlus4M(PCPlus4M),
         // Control Signals
         .i_RegWriteE(RegWriteE),
         .i_MemtoRegE(MemtoRegE),
@@ -187,15 +195,18 @@ module TOP_MODULE #(
     wire [DATA_WIDTH-1:0] ALUOutW;
     wire [DATA_WIDTH-1:0] ReadDataW;
     wire MemtoRegW;
+    wire [ADDRESS_WIDTH-1:0] PCPlus4W;
     memory_to_write_back_reg U7_MEM_ST(
         .i_CLK(CLK),
         .i_RST(RST),
         .i_ALUOutM(ALUOutM),
         .i_WriteRegM(WriteRegM),
         .i_ReadDataM(ReadDataM),
+        .i_PCPlus4M(PCPlus4M),
         .o_ALUOutW(ALUOutW),
         .o_WriteRegW(WriteRegW),
         .o_ReadDataW(ReadDataW),
+        .o_PCPlus4W(PCPlus4W),
         // Control Signals
         .i_RegWriteM(RegWriteM),
         .i_MemtoRegM(MemtoRegM),
@@ -207,6 +218,7 @@ module TOP_MODULE #(
         .i_ALUOutW(ALUOutW),
         .i_ReadDataW(ReadDataW),
         .i_MemtoRegW(MemtoRegW),
+        .i_PCPlus4W(PCPlus4W),
         .o_ResultW(ResultW)
     );
 
@@ -220,7 +232,39 @@ module TOP_MODULE #(
         .o_ALUSrcD(ALUSrcD),
         .o_RegDstD(RegDstD),
         .o_BranchD(BranchD),
+        .o_PCSrcD(PCSrcD),
         .o_JumpD(Jump),
-        .o_LoadD(LoadD)
+        .o_JumpRD(JumpR),
+        .o_LoadD(LoadD),
+        .o_PC_SelD(PC_SelD)
     );
+
+    Hazard_unit (
+        .i_BranchD(BranchD),   //from control unit : BranchD = 1 in case of a bltz,beq,bne,blez or bgtz instr
+        //pipeline registers
+        .i_RsD(RsD),
+        .i_RtD(RtD),
+        .i_RsE(RsE),
+        .i_RtE(RtE),
+        .i_WriteRegE(WriteRegE),
+        .i_WriteRegM(WriteRegM), 
+        .i_WriteRegW(WriteRegW),
+        //pipeline control signals
+        .i_RegWriteE(RegWriteE), 
+        .i_RegWriteM(RegWriteM), 
+        .i_RegWriteW(RegWriteW),
+        .i_MemtoRegE(MemtoRegE), 
+        .i_MemtoRegM(MemtoRegM),
+        //hazard control outputs
+        .o_StallF(StallF),
+        .o_StallD(StallD),
+        .o_ForwardAD(ForwardAD),   //mux selectors for sources to be compared, i case it is a branch instr
+        .o_ForwardBD(ForwardBD),   //mux selectors for sources to be compared, i case it is a branch instr
+        .o_FlushE(FlushE),
+        .o_ForwardAE(ForwardAE),   //mux selectors for ALU sources
+        .o_ForwardBE(ForwardBE),   //mux selectors for ALU sources
+        .i_JrD(JumpRD),                  //from control unit : JrD = 1 in case of a JR OR a JALR
+        .i_JD(Jump),				      //from control unit : JD = 1 in case of a J OR a JAL
+        .i_ALUSrcD(ALUSrcD)
+);
 endmodule
