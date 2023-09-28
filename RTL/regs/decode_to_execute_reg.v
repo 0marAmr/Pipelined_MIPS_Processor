@@ -15,6 +15,7 @@ module decode_to_execute_reg #(
     input   wire  [RF_ADDR_WIDTH-1:0]  i_RdD,
     input   wire  [ADDRESS_WIDTH-1:0]  i_SignImmD,
     input   wire  [ADDRESS_WIDTH-1:0]  i_PCPlus4D,
+    input   wire  [4:0]                i_ShamtD,
     output  reg   [DATA_WIDTH-1:0]     o_SrcAE,
     output  reg   [DATA_WIDTH-1:0]     o_SrcBE, 
     output  reg   [RF_ADDR_WIDTH-1:0]  o_RsE,
@@ -22,6 +23,7 @@ module decode_to_execute_reg #(
     output  reg   [RF_ADDR_WIDTH-1:0]  o_RdE,
     output  reg   [ADDRESS_WIDTH-1:0]  o_SignImmE,
     output  reg   [ADDRESS_WIDTH-1:0]  o_PCPlus4E,
+    output  reg   [4:0]                o_ShamtE,
     // Control Signals
     input   wire                       i_RegWriteD,
     input   wire  [1:0]                i_MemtoRegD,
@@ -53,6 +55,7 @@ module decode_to_execute_reg #(
             o_ALUSrcE <= 'b0;
             o_RegDstE <= 'b0;
             o_PCPlus4E <= 'b0;
+            o_ShamtE <= 'b0;
         end
         else if (i_CLR) begin
             o_SrcAE <= 'b0;
@@ -68,6 +71,7 @@ module decode_to_execute_reg #(
             o_ALUSrcE <= 'b0;
             o_RegDstE <= 'b0;
             o_PCPlus4E <= 'b0;
+            o_ShamtE <= 'b0;
         end
         else begin
             o_SrcAE <= i_SrcAD;
@@ -83,6 +87,7 @@ module decode_to_execute_reg #(
             o_ALUSrcE <= i_ALUSrcD;
             o_RegDstE <= i_RegDstD;
             o_PCPlus4E <= i_PCPlus4D;
+            o_ShamtE <= i_ShamtD;
         end
     end
 endmodule
