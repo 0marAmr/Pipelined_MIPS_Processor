@@ -1,6 +1,7 @@
 module MAIN_DECODER(
     input wire [6:0]    op, // 7-bit input signal op
-    input wire [5:0]    funct,     
+    input wire [5:0]    funct,
+    input wire          i_EqualD, i_GTZD, i_LTZD, i_LTEZD,	
     output reg          regwrite,
     output reg [1:0]    memtoreg,
     output reg          memwrite,
@@ -11,6 +12,7 @@ module MAIN_DECODER(
     output reg          jump,
     output reg          jumpr,
     output reg [2:0]    alu_op,
+    output reg 		    PCSrcD,
     output reg          load
 
 );
@@ -20,6 +22,10 @@ module MAIN_DECODER(
                         LW      = 6'b100011,
                         SW      = 6'b101011,
                         BEQ     = 6'b000100,
+                        BNE     = 6'b000101,
+                        BLEZ    = 6'b000110,
+                        BGTZ    = 6'b000111,
+                        BLTZ    = 6'b000001,
                         ADDI    = 6'b001000,
                         JMP     = 6'b000010,
                         JAL     = 6'b000011,
@@ -37,11 +43,13 @@ module MAIN_DECODER(
         alu_op = 'b0;
         pcsel = 'b0;
         load = 'b1;
+		PCSrcD = 'b0;
         case (op)
             R_TYPE: begin
                 case (funct)
                     6'b001001: begin  // jump and link register (JALR)
                         memtoreg = 'b10;    // PC + 4
+						regwrite = 'd1;
                         regdst   = 'b10;    // return address reg  (31)
                         jumpr = 'b1;
                         pcsel = 'b01;       // PC next values is Rs
@@ -50,12 +58,12 @@ module MAIN_DECODER(
                         jumpr = 'b1;
                         pcsel = 'b01;       // PC next values is Rs
                     end 
-                    default: begin
+                    default: begin  //other R-Type
                         regdst   =  'b01;
+						regwrite =  'b1;
+						alu_op   =  'b010;
                     end
                 endcase
-                regwrite =  'b1;
-                alu_op   =  'b010;
             end
             LW: begin
                 regwrite = 'b1;
@@ -67,15 +75,33 @@ module MAIN_DECODER(
                 alusrc   = 'b1; // signed imm value
             end
             BEQ: begin
-                alu_op   =  'b001;
                 branch   = 'b1;
+				PCSrcD = i_EqualD;
             end
+            BNE: begin
+                branch   = 'b1;
+				PCSrcD = ~i_EqualD;
+            end
+            BLEZ: begin
+                branch   = 'b1;
+				PCSrcD = i_LTEZD;
+            end
+            BGTZ: begin
+                branch   = 'b1;
+				PCSrcD = i_GTZD;
+            end
+            BLTZ: begin
+                branch   = 'b1;
+				PCSrcD = i_EqualD;
+				PCSrcD = i_LTZD;
+            end			
             ADDI: begin
                 regwrite =  'b1;
                 alusrc   = 'b1;
             end
             JMP: begin
                 jump = 'b1;
+				pcsel = 'b10; 
             end
             JAL: begin
                 jump = 'b1;

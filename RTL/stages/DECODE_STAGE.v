@@ -10,7 +10,7 @@ module DECODE_STAGE #(
     input   wire                      i_RegWriteW,
     input   wire                      i_ForwardAD,
     input   wire                      i_ForwardBD,
-    input   wire [1:0]                i_PC_SelD,  //from control unit
+    input   wire [1:0]                i_PC_SELD,  //from control unit
     input   wire [INSTR_WIDTH-1:0]    i_InstrD,
     input   wire [DATA_WIDTH-1:0]     i_ALUOutM,
     input   wire [DATA_WIDTH-1:0]     i_ResultW,
@@ -19,7 +19,8 @@ module DECODE_STAGE #(
     output  wire [DATA_WIDTH-1:0]     o_SrcBD,
     output  wire [ADDRESS_WIDTH-1:0]  o_SignImmD,
     output  wire [ADDRESS_WIDTH-1:0]  o_PCNextD,
-    output  wire                      o_EqualD
+    output  wire                      o_EqualD, o_GTZD, o_LTZD, o_LTEZD,
+	output  wire [4:0]                o_ShamtD
 
 );
     
@@ -77,7 +78,7 @@ module DECODE_STAGE #(
 	 mux_4_to_1 #(
         .N(ADDRESS_WIDTH)
     ) PC_MUX (
-        .sel(i_PC_SelD),
+        .sel(i_PC_SELD),
         .in0(PCBranchD),
         .in1(CmpValAD),
         .in2({i_PCPlus4D[31:28], i_InstrD[25:0], 2'b00}),
@@ -85,5 +86,9 @@ module DECODE_STAGE #(
         .out(o_PCNextD)
     );
 
+	assign o_ShamtD = i_InstrD[10:6];
     assign o_EqualD = (CmpValAD == CmpValBD);
+    assign o_GTZD = (CmpValAD > 'd0);
+    assign o_LTZD = (CmpValAD < 'd0);
+    assign o_LTEZD = (CmpValAD <= 'd0);	
 endmodule

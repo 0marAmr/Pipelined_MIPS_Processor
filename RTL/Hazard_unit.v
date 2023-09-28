@@ -17,7 +17,9 @@ input	wire						i_RegWriteM,
 input	wire						i_RegWriteW,
 input	wire						i_MemtoRegE, 
 input	wire						i_MemtoRegM,
+input	wire						i_MemtoRegW,
 //hazard control outputs
+output	wire						o_MemDataSelM,  //to memory stage
 output	wire						o_StallF,
 output	wire						o_StallD,
 output	reg							o_ForwardAD,   //mux selectors for sources to be compared, i case it is a branch instr
@@ -32,7 +34,7 @@ input	wire						i_ALUSrcD
 
 //internal control signals
 wire lwstall, branchstall, jrstall;
-wire lwstall_cond, branchstall_cond1, branchstall_cond2, forward_cond_Rs_M, forward_cond_Rs_W, forward_cond_Rt_M, forward_cond_Rt_W, branch_forward_cond_Rs, branch_forward_cond_Rt, jrstall_cond1, jrstall_cond2;
+wire lwstall_cond, branchstall_cond1, branchstall_cond2, forward_cond_Rs_M, forward_cond_Rs_W, forward_cond_Rt_M, forward_cond_Rt_W, branch_forward_cond_Rs, branch_forward_cond_Rt, jrstall_cond1, jrstall_cond2, lw_forward_cond;
 wire [1:0] forward_cond_Rs, forward_cond_Rt;
 
 
@@ -117,6 +119,11 @@ assign forward_cond_Rs_W = i_RegWriteW && ((i_RsE != 'd0) && (i_RsE == i_WriteRe
 assign forward_cond_Rt_W = i_RegWriteW && ((i_RtE != 'd0) && (i_RtE == i_WriteRegW));
 assign branch_forward_cond_Rs = i_RegWriteM && ((i_RsD != 'd0) && (i_RsD == i_WriteRegM));
 assign branch_forward_cond_Rt = i_RegWriteM && ((i_RtD != 'd0) && (i_RtD == i_WriteRegM));
+assign lw_forward_cond = (i_WriteRegM == i_WriteRegW) && i_MemtoRegW;   // a load followed by a store
+
+
+//memory data source selector
+assign o_MemDataSelM = lw_forward_cond;
 
 
 //load stall logic
