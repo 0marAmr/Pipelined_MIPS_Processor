@@ -16,8 +16,8 @@ module EXECUTE_STAGE #(
     input  wire  [1:0]                  i_RegDstE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RtE,
     input  wire  [RF_ADDR_WIDTH-1:0]    i_RdE,
-    input  wire  [RF_ADDR_WIDTH-1:0]    i_RsE, ///////////////added
-    input  wire  [4:0]                  i_ShamtD,
+    input  wire  [RF_ADDR_WIDTH-1:0]    i_RsE,
+    input  wire  [4:0]                  i_ShamtE,
     output wire  [RF_ADDR_WIDTH-1:0]    o_WriteRegE,
     output wire  [DATA_WIDTH-1:0]       o_WriteDataE,
     output wire  [DATA_WIDTH-1:0]       o_ALUOutE
@@ -33,7 +33,7 @@ module EXECUTE_STAGE #(
         .Operand1(OperAE),
         .Operand2(OperBE),
         .Cntrl(i_ALUControlE),
-        .Shamt(i_ShamtD),
+        .Shamt(i_ShamtE),
         .ALU_OUT(o_ALUOutE)
     );
 

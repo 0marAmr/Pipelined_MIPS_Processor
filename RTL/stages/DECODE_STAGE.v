@@ -19,7 +19,8 @@ module DECODE_STAGE #(
     output  wire [DATA_WIDTH-1:0]     o_SrcBD,
     output  wire [ADDRESS_WIDTH-1:0]  o_SignImmD,
     output  wire [ADDRESS_WIDTH-1:0]  o_PCNextD,
-    output  wire                      o_EqualD
+    output  wire                      o_EqualD,
+    output  wire [4:0]                o_ShamtD,
 
 );
     

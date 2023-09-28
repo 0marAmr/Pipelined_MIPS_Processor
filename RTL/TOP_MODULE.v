@@ -33,7 +33,6 @@ module TOP_MODULE #(
     wire StallD;
     wire [ADDRESS_WIDTH-1:0]    PCPlus4D;
     wire [INSTR_WIDTH-1:0]      InstrD;
-    wire [4:0]                  ShamtD;
     fetch_to_decode_reg U1_FET_TO_DEC(
         .i_CLK(CLK),
         .i_RST(RST),
@@ -41,10 +40,8 @@ module TOP_MODULE #(
         .i_CLR(PCSrcD),
         .i_PCPlus4F(PCPlus4F),
         .i_InstrF(InstrF),
-        .i_ShamtF(InstrF[10:6]),
         .o_PCPlus4D(PCPlus4D),
         .o_InstrD(InstrD),
-        .o_ShamtD(ShamtD)
     );
 
     wire [RF_ADDR_WIDTH-1:0] WriteRegW;
@@ -61,6 +58,7 @@ module TOP_MODULE #(
     wire LTZD;
     wire LTEZD;
     wire [1:0] PC_SelD;
+    wire [4:0]                  ShamtD;
 
     DECODE_STAGE U2_DEC_ST (
         .i_CLK(CLK),
@@ -81,7 +79,8 @@ module TOP_MODULE #(
         .o_EqualD(EqualD),
         .o_GTZD(GTZD),
         .o_LTZD(LTZD),
-        .o_LTEZD(LTEZD)
+        .o_LTEZD(LTEZD),
+        .o_ShamtD(ShamtD)
     );
 
     wire FlushE;
@@ -104,6 +103,7 @@ module TOP_MODULE #(
     wire ALUSrcE;
     wire RegDstD;
     wire RegDstE;
+    wire [4:0]  ShamtE;
 
     decode_to_execute_reg U3_DEC_TO_EXC(
         .i_CLK(CLK),
@@ -117,6 +117,7 @@ module TOP_MODULE #(
         .i_RdD(InstrD[15:11]),
         .i_SignImmD(SignImmD),
         .i_PCPlus4D(PCPlus4D),
+        .i_ShamtD(ShamtD)
         .o_SrcAE(SrcAE),
         .o_SrcBE(SrcBE),
         .o_RsE(RsE),
@@ -124,6 +125,7 @@ module TOP_MODULE #(
         .o_RdE(RdE),
         .o_SignImmE(SignImmE),
         .o_PCPlus4E(PCPlus4E),
+        .o_ShamtE(ShamtE),
         // Control Signals,
         .i_RegWriteD(RegWriteD),
         .i_MemtoRegD(MemtoRegD),
@@ -158,6 +160,7 @@ module TOP_MODULE #(
         .i_RsE(RsE),
         .i_RtE(RtE),
         .i_RdE(RdE),
+        .i_ShamtE(ShamtE),
         .o_WriteRegE(WriteRegE),
         .o_WriteDataE(WriteDataE),
         .o_ALUOutE(ALUOutE)
