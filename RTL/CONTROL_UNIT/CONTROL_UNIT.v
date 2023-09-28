@@ -1,7 +1,7 @@
 module CONTROL_UNIT(
     input    wire [5:0]                 i_Op,
     input    wire [5:0]                 i_funct,
-    input    wire                       i_EqualD,
+    input    wire                       i_EqualD, i_GTZD, i_LTZD, i_LTEZD,
     output   wire                       o_RegWriteD,
     output   wire [1:0]                 o_MemtoRegD,
     output   wire                       o_MemWriteD,
@@ -17,6 +17,7 @@ module CONTROL_UNIT(
 );
 
     wire [2:0] alu_op;
+	wire PCSrcD;
 
     MAIN_DECODER MAIN_DEC(
         .op(i_Op),
@@ -30,7 +31,12 @@ module CONTROL_UNIT(
         .jumpr(o_JumpRD),
         .alu_op(alu_op),
         .load(o_LoadD),
-        .pcsel(o_PC_SelD)
+        .pcsel(o_PC_SelD),
+        .PCSrcD(PCSrcD),
+		.i_EqualD(i_EqualD), 
+		.i_GTZD(i_GTZD), 
+		.i_LTZD(i_LTZD), 
+		.i_LTEZD(i_LTEZD)
     );
 
     ALU_Controller (
@@ -39,5 +45,5 @@ module CONTROL_UNIT(
         .ALUControl(o_ALUControlD)
     );
 
-    assign o_PCSrcD =  (o_JumpD) || (o_JumpRD) || (BranchD && (i_EqualD));
+    assign o_PCSrcD =  (o_JumpD) || (o_JumpRD) || (PCSrcD);
 endmodule
