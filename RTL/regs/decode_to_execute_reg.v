@@ -30,13 +30,13 @@ module decode_to_execute_reg #(
     input   wire                       i_MemWriteD,
     input   wire  [2:0]                i_ALUControlD,
     input   wire                       i_ALUSrcD,
-    input   wire                       i_RegDstD,
+    input   wire  [1:0]                i_RegDstD,
     output  reg                        o_RegWriteE,
     output  reg   [1:0]                o_MemtoRegE,
     output  reg                        o_MemWriteE,
     output  reg   [2:0]                o_ALUControlE,
     output  reg                        o_ALUSrcE,
-    output  reg                        o_RegDstE
+    output  reg   [1:0]                o_RegDstE
    
 );
 
