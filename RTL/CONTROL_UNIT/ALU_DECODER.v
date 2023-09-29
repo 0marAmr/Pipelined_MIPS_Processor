@@ -43,12 +43,6 @@ always@(*)  begin
         end    
         'b110_xxxxxx : begin
             ALUControl = XOR;
-        end  
-        'b010_001000 : begin /*Jump register*/
-            ALUControl = 4'bxxxx;
-        end           
-        'b010_001001 : begin /*Jump and link reg*/
-            ALUControl = add;
         end              
         'b010_100000 : begin /*add*/
             ALUControl = add;
@@ -99,7 +93,7 @@ always@(*)  begin
             ALUControl = Set_if_less_than;
         end
         default: 
-            ALUControl = 'bxxxx;
+            ALUControl = 'b0;
     endcase
 end
 

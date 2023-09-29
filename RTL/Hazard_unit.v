@@ -103,7 +103,7 @@ end
 
 
 //stall consitions
-assign lwstall_cond  = (i_MemtoRegE && (((i_RsD != 'd0) && (i_RsD == i_RtE)) || ((i_RtD != 'd0) && (i_RtD == i_RtE) && !i_ALUSrcD && !(i_JrD))) ) && !(i_JD);
+assign lwstall_cond  = (i_MemtoRegE && (((i_RsD != 'd0) && (i_RsD == i_RtE)) || ((i_RtD != 'd0) && (i_RtD == i_RtE) && !i_ALUSrcD && !(i_JrD))) ) && !(i_JD);   //JR conditio most likely not needed
 assign branchstall_cond1  = BranchD && i_RegWriteE && (((i_RsD != 'd0) && (i_RsD == i_WriteRegE)) || ((i_RtD != 'd0) && (i_RtD == i_WriteRegE)));
 assign branchstall_cond2  = BranchD && i_MemtoRegM && (((i_RsD != 'd0) && (i_RsD == i_WriteRegM)) || ((i_RtD != 'd0) && (i_RtD == i_WriteRegM)));
 assign jrstall_cond1 = (i_JrD) && i_RegWriteE && ((i_RsD != 'd0) && (i_RsD == i_WriteRegE)) ;

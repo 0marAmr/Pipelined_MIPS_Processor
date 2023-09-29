@@ -63,7 +63,9 @@ module TOP_MODULE #(
     wire LTEZD;
     wire [1:0] PC_SelD;
     wire [4:0]                  ShamtD;
-
+	wire sign_selD;
+	
+	
     DECODE_STAGE U2_DEC_ST (
         .i_CLK(CLK),
         .i_RST(RST),
@@ -76,6 +78,7 @@ module TOP_MODULE #(
         .i_ALUOutM(ALUOutM),
         .i_ResultW(ResultW),
         .i_PCPlus4D(PCPlus4D),
+		.i_sign_selD(sign_selD),
         .o_SrcAD(SrcAD),
         .o_SrcBD(SrcBD),
         .o_SignImmD(SignImmD),
@@ -102,8 +105,8 @@ module TOP_MODULE #(
     wire [1:0] MemtoRegE;
     wire MemWriteD;
     wire MemWriteE;
-    wire ALUControlD;
-    wire ALUControlE;
+    wire [3:0] ALUControlD;
+    wire [3:0] ALUControlE;
     wire ALUSrcD;
     wire ALUSrcE;
     wire [1:0] RegDstD;
@@ -111,6 +114,8 @@ module TOP_MODULE #(
 	wire [4:0]  ShamtE;
 	
     wire [4:0]  ShamtE;
+	wire [2:0] MemDataSelD, MemDataSelE, MemDataSelM, MemDataSelW;
+	wire [1:0] RAM_selD, RAM_selE, RAM_selM ;
 
     decode_to_execute_reg U3_DEC_TO_EXC(
         .i_CLK(CLK),
@@ -147,7 +152,11 @@ module TOP_MODULE #(
         .o_MemWriteE(MemWriteE),
         .o_ALUControlE(ALUControlE),
         .o_ALUSrcE(ALUSrcE),
-        .o_RegDstE(RegDstE)
+        .o_RegDstE(RegDstE),
+		.i_MemDataSelD(MemDataSelD),
+		.o_MemDataSelE(MemDataSelE),
+		.i_RAM_selD(RAM_selD),
+		.o_RAM_selE(RAM_selE)
     );
 
 
@@ -200,19 +209,24 @@ module TOP_MODULE #(
         .i_MemWriteE(MemWriteE),
         .o_RegWriteM(RegWriteM),
         .o_MemtoRegM(MemtoRegM),
-        .o_MemWriteM(MemWriteM)
+        .o_MemWriteM(MemWriteM),
+		.i_MemDataSelE(MemDataSelE),
+		.o_MemDataSelM(MemDataSelM),
+		.i_RAM_selE(RAM_selE),
+		.o_RAM_selM(RAM_selM)		
     );
 
     wire [DATA_WIDTH-1:0] ReadDataM, ReadDataW ;
-	wire MemDataSelM;
+	wire MemDataSelM_Hazard;
     MEMORY_STAGE U6_MEM_ST(
         .i_CLK(CLK),
         .i_ALUOutM(ALUOutM),
         .i_WriteDataM(WriteDataM),
         .i_MemWriteM(MemWriteM),
+		.i_RAM_selM(RAM_selM),
         .o_ReadDataM(ReadDataM),
 		.i_ReadDataW(ReadDataW),
-		.i_MemDataSelM(MemDataSelM)
+		.i_MemDataSelM(MemDataSelM_Hazard)
 		
     );
 	
@@ -235,7 +249,9 @@ module TOP_MODULE #(
         .i_RegWriteM(RegWriteM),
         .i_MemtoRegM(MemtoRegM),
         .o_RegWriteW(RegWriteW),
-        .o_MemtoRegW(MemtoRegW)
+        .o_MemtoRegW(MemtoRegW),
+		.i_MemDataSelM(MemDataSelM),
+		.o_MemDataSelW(MemDataSelW)			
     );
 
     WRITE_BACK_STAGE U8_WB_ST (
@@ -243,11 +259,11 @@ module TOP_MODULE #(
         .i_ReadDataW(ReadDataW),
         .i_MemtoRegW(MemtoRegW),
         .i_PCPlus4W(PCPlus4W),
-        .o_ResultW(ResultW)
+        .o_ResultW(ResultW),
+		.i_MemDataSelW(MemDataSelW)
     );
-
 	
-	
+		
 	    CONTROL_UNIT U9_CTRL_UNIT(
         .i_Op(InstrD[31:26]),
         .i_funct(InstrD[5:0]),		
@@ -266,7 +282,10 @@ module TOP_MODULE #(
         .o_JumpD(Jump),
         .o_JumpRD(JumpR),
         .o_LoadD(LoadD),
-        .o_PC_SelD(PC_SelD)
+        .o_PC_SelD(PC_SelD),
+		.o_sign_selD(sign_selD),
+		.o_MemDataSelD(MemDataSelD),
+		.o_RAM_selD(RAM_selD)
     );
 	
     Hazard_unit (
@@ -287,7 +306,7 @@ module TOP_MODULE #(
         .i_MemtoRegM(MemtoRegM[0]),
 		.i_MemtoRegW(MemtoRegW[0]),
         //hazard control outputs
-		.o_MemDataSelM(MemDataSelM),
+		.o_MemDataSelM(MemDataSelM_Hazard),
         .o_StallF(StallF),
         .o_StallD(StallD),
         .o_ForwardAD(ForwardAD),   //mux selectors for sources to be compared, i case it is a branch instr

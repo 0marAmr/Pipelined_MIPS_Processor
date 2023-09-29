@@ -18,7 +18,9 @@ module memory_to_write_back_reg #(
     input   wire                       i_RegWriteM,
     input   wire  [1:0]                i_MemtoRegM,
     output  reg                        o_RegWriteW,
-    output  reg   [1:0]                o_MemtoRegW
+    output  reg   [1:0]                o_MemtoRegW,
+    output 	reg   [2:0]                i_MemDataSelM,	
+    output 	reg   [2:0]                o_MemDataSelW	
 );
 
     always @(posedge i_CLK or negedge i_RST) begin
@@ -29,6 +31,7 @@ module memory_to_write_back_reg #(
             o_RegWriteW <= 'b0;
             o_MemtoRegW <= 'b0;
             o_PCPlus4W  <= 'b0;
+			o_MemDataSelW <= 'b0;
         end
         else begin
             o_ALUOutW <= i_ALUOutM;
@@ -37,6 +40,7 @@ module memory_to_write_back_reg #(
             o_RegWriteW <= i_RegWriteM;
             o_MemtoRegW <= i_MemtoRegM;
             o_PCPlus4W <= i_PCPlus4M;
+			o_MemDataSelW <= i_MemDataSelM;
         end
     end
 endmodule

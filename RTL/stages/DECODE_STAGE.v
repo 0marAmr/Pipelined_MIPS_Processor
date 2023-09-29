@@ -10,6 +10,7 @@ module DECODE_STAGE #(
     input   wire                      i_RegWriteW,
     input   wire                      i_ForwardAD,
     input   wire                      i_ForwardBD,
+    input   wire                      i_sign_selD,
     input   wire [1:0]                i_PC_SELD,  //from control unit
     input   wire [INSTR_WIDTH-1:0]    i_InstrD,
     input   wire [DATA_WIDTH-1:0]     i_ALUOutM,
@@ -41,16 +42,38 @@ module DECODE_STAGE #(
         .r_data_2(o_SrcBD)    // read data B output
     );
 
+	wire [DATA_WIDTH-1:0] SignImmD;
     SIGN_EXT sign_extend (
         .instr_part(i_InstrD[15:0]),
-        .data_out_signed(o_SignImmD)
+        .data_out_signed(SignImmD)
     ); 
+	
+	
+	wire [DATA_WIDTH-1:0] SignImm0;
+    sign_extend_0 #(
+        .INPUT_WIDTH(16),
+        .OUTPUT_WIDTH(DATA_WIDTH)
+    ) S_EXT_0_WORD (
+        .in(i_InstrD[15:0]), 
+        .out_extend(SignImm0)
+    );
+	
+	
+    mux_2_to_1 #(
+        .N(DATA_WIDTH)
+    ) SignExtendMux (
+        .data_true(SignImm0),
+        .data_false(SignImmD),
+        .sel(i_sign_selD),
+        .data_out(o_SignImmD)
+    );	
+	
     
 	wire [ADDRESS_WIDTH-1:0] PCBranchD;
     ADDER #(
         .N(ADDRESS_WIDTH)
     ) PC_BRANCH_ADDER (
-        .X((o_SignImmD<<2'd2)),
+        .X((SignImmD<<2'd2)),
         .Y(i_PCPlus4D),
         .Z(PCBranchD)
     );

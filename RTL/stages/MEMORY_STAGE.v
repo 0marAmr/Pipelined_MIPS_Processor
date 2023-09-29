@@ -7,21 +7,26 @@ module MEMORY_STAGE #(
     input  wire   [DATA_WIDTH-1:0]     i_ALUOutM,
     input  wire   [DATA_WIDTH-1:0]     i_WriteDataM, 
     input  wire                        i_MemWriteM,
+    input  wire   [1:0]                i_RAM_selM,
     input wire    [DATA_WIDTH-1:0]     i_ReadDataW,	 //from write back stage
     input  wire                        i_MemDataSelM,   //from hazard unit
+
     output wire   [DATA_WIDTH-1:0]     o_ReadDataM
 );
+
+	localparam PROGRAM = "text.txt";
     wire [DATA_WIDTH-1:0] MemDataIn;
-    DATA_MEM #(
-        .ADDRESS_WIDTH(ADDRESS_WIDTH),
-        .DATA_WIDTH(DATA_WIDTH)
-    ) DM (
-        .clk(i_CLK),
-        .write_en(i_MemWriteM),
-        .data_in(MemDataIn),
-        .addr(i_ALUOutM),
-        .data_out(o_ReadDataM)
-    );
+	RAM #(
+		.PROGRAM(PROGRAM), .ADDRESS_WIDTH(ADDRESS_WIDTH), .DATA_WIDTH(DATA_WIDTH))
+	) DATA_MEM(
+		.CLK(i_CLK),
+		.Data(MemDataIn),
+		.Addr(i_ALUOutM),
+		.W_EN(i_MemWriteM),
+		.sel(i_RAM_selM),
+		.Output_Data(o_ReadDataM)
+	);
+
 	
 	mux_2_to_1 #(
         .N(DATA_WIDTH)

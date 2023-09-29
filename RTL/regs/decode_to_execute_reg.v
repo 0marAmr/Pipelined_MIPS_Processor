@@ -28,15 +28,19 @@ module decode_to_execute_reg #(
     input   wire                       i_RegWriteD,
     input   wire  [1:0]                i_MemtoRegD,
     input   wire                       i_MemWriteD,
-    input   wire  [2:0]                i_ALUControlD,
+    input   wire  [3:0]                i_ALUControlD,
     input   wire                       i_ALUSrcD,
     input   wire  [1:0]                i_RegDstD,
     output  reg                        o_RegWriteE,
     output  reg   [1:0]                o_MemtoRegE,
     output  reg                        o_MemWriteE,
-    output  reg   [2:0]                o_ALUControlE,
+    output  reg   [3:0]                o_ALUControlE,
     output  reg                        o_ALUSrcE,
-    output  reg   [1:0]                o_RegDstE
+    output  reg   [1:0]                o_RegDstE,
+    output 	reg   [2:0]                i_MemDataSelD,	
+    output 	reg   [2:0]                o_MemDataSelE,
+	output  reg   [1:0]	               i_RAM_selD,	
+	output  reg   [1:0]	               O_RAM_selE
    
 );
 
@@ -56,6 +60,8 @@ module decode_to_execute_reg #(
             o_RegDstE <= 'b0;
             o_PCPlus4E <= 'b0;
             o_ShamtE <= 'b0;
+			o_MemDataSelE <= 'b0;
+			O_RAM_selE <= 'b0;
         end
         else if (i_CLR) begin
             o_SrcAE <= 'b0;
@@ -72,6 +78,8 @@ module decode_to_execute_reg #(
             o_RegDstE <= 'b0;
             o_PCPlus4E <= 'b0;
             o_ShamtE <= 'b0;
+			o_MemDataSelE <= 'b0;
+			O_RAM_selE <= 'b0;
         end
         else begin
             o_SrcAE <= i_SrcAD;
@@ -88,6 +96,8 @@ module decode_to_execute_reg #(
             o_RegDstE <= i_RegDstD;
             o_PCPlus4E <= i_PCPlus4D;
             o_ShamtE <= i_ShamtD;
+			o_MemDataSelE <= i_MemDataSelD;
+			O_RAM_selE <= i_RAM_selD;
         end
     end
 endmodule
