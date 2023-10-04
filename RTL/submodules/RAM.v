@@ -1,16 +1,14 @@
 module RAM #(
 	parameter 	ADDRESS_WIDTH = 32,
 				DATA_WIDTH = 32,
-				MEMORY_DEPTH = 2**10,
-				PROGRAM = "text.txt"
-)
-(
+				MEMORY_DEPTH = 2**10
+)(
 input 	wire								CLK,
-input 	wire	[INSTR_DATA_WIDTH-1:0] 		Data,
+input 	wire	[DATA_WIDTH-1:0] 		    Data,
 input 	wire	[ADDRESS_WIDTH-1:0] 		Addr,
 input 	wire								W_EN,
 input	wire	[1:0]						sel,
-output	wire	[INSTR_DATA_WIDTH-1:0] 		Output_Data
+output	wire	[DATA_WIDTH-1:0] 		Output_Data
 );
 
 	reg [7:0] memory [0:MEMORY_DEPTH-1];  /*byte accessable*/
@@ -48,11 +46,6 @@ output	wire	[INSTR_DATA_WIDTH-1:0] 		Output_Data
 			endcase
 		end
 	end
-
-	    // Initialize the instruction memory contents from the file specified by PROGRAM
-	    initial begin
-	        $readmemh(PROGRAM, memory, INSTR_SEG_START_ADDR, INSTR_SEG_END_ADDR);
-	    end
 
 	assign	Output_Data = {memory[Addr+3], memory[Addr+2], memory[Addr+1], memory[Addr]};
 
