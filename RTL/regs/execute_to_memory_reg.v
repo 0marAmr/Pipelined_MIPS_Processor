@@ -24,7 +24,7 @@ module execute_to_memory_reg #(
     output 	reg   [2:0]                i_MemDataSelE,	
     output 	reg   [2:0]                o_MemDataSelM,
 	output  reg   [1:0]	               i_RAM_selE,	
-	output  reg   [1:0]	               O_RAM_selM	
+	output  reg   [1:0]	               o_RAM_selM	
 );
 
     always @(posedge i_CLK or negedge i_RST) begin
@@ -37,7 +37,7 @@ module execute_to_memory_reg #(
             o_MemWriteM <= 'b0;
             o_PCPlus4M <= 'b0 ;
 			o_MemDataSelM <= 'b0;
-			O_RAM_selM <= 'b0;
+			o_RAM_selM <= 'b0;
         end
         else begin
             o_ALUOutM  <= i_ALUOutE;
@@ -48,7 +48,7 @@ module execute_to_memory_reg #(
             o_MemWriteM <= i_MemWriteE;
             o_PCPlus4M <= i_PCPlus4E;
 			o_MemDataSelM <= i_MemDataSelE;
-			O_RAM_selM <= i_RAM_selE;
+			o_RAM_selM <= i_RAM_selE;
         end
     end
 endmodule

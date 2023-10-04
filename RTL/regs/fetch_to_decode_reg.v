@@ -9,7 +9,7 @@ module fetch_to_decode_reg #(
     input   wire [INSTR_WIDTH-1:0]    i_InstrF,
     input   wire [ADDRESS_WIDTH-1: 0] i_PCPlus4F,
     output  reg  [INSTR_WIDTH-1:0]    o_InstrD,
-    output  reg  [ADDRESS_WIDTH-1: 0] o_PCPlus4D,
+    output  reg  [ADDRESS_WIDTH-1: 0] o_PCPlus4D
 );
 
     always @(posedge i_CLK or negedge i_RST) begin

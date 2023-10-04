@@ -10,15 +10,14 @@ module MEMORY_STAGE #(
     input  wire   [1:0]                i_RAM_selM,
     input wire    [DATA_WIDTH-1:0]     i_ReadDataW,	 //from write back stage
     input  wire                        i_MemDataSelM,   //from hazard unit
-
     output wire   [DATA_WIDTH-1:0]     o_ReadDataM
 );
 
-	localparam PROGRAM = "text.txt";
     wire [DATA_WIDTH-1:0] MemDataIn;
 	RAM #(
-		.PROGRAM(PROGRAM), .ADDRESS_WIDTH(ADDRESS_WIDTH), .DATA_WIDTH(DATA_WIDTH))
-	) DATA_MEM(
+		.ADDRESS_WIDTH(ADDRESS_WIDTH), 
+		.DATA_WIDTH(DATA_WIDTH)
+	) DATA_MEM (
 		.CLK(i_CLK),
 		.Data(MemDataIn),
 		.Addr(i_ALUOutM),

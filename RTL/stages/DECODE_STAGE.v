@@ -11,7 +11,7 @@ module DECODE_STAGE #(
     input   wire                      i_ForwardAD,
     input   wire                      i_ForwardBD,
     input   wire                      i_sign_selD,
-    input   wire [1:0]                i_PC_SELD,  //from control unit
+    input   wire [1:0]                i_PC_SelD,  //from control unit
     input   wire [INSTR_WIDTH-1:0]    i_InstrD,
     input   wire [DATA_WIDTH-1:0]     i_ALUOutM,
     input   wire [DATA_WIDTH-1:0]     i_ResultW,
@@ -20,7 +20,10 @@ module DECODE_STAGE #(
     output  wire [DATA_WIDTH-1:0]     o_SrcBD,
     output  wire [ADDRESS_WIDTH-1:0]  o_SignImmD,
     output  wire [ADDRESS_WIDTH-1:0]  o_PCNextD,
-    output  wire                      o_EqualD, o_GTZD, o_LTZD, o_LTEZD,
+    output  wire                      o_EqualD,
+    output  wire                      o_GTZD,
+    output  wire                      o_LTZD, 
+    output  wire                      o_LTEZD,
 	output  wire [4:0]                o_ShamtD
 
 );
@@ -43,21 +46,23 @@ module DECODE_STAGE #(
     );
 
 	wire [DATA_WIDTH-1:0] SignImmD;
-    SIGN_EXT sign_extend (
+    SIGN_EXT #(
+        .INPUT_WIDTH(16),
+        .OUTPUT_WIDTH(DATA_WIDTH)
+    ) SIGN_EXT_WORD (
         .instr_part(i_InstrD[15:0]),
         .data_out_signed(SignImmD)
     ); 
 	
 	
 	wire [DATA_WIDTH-1:0] SignImm0;
-    sign_extend_0 #(
+    ZERO_EXT #(
         .INPUT_WIDTH(16),
         .OUTPUT_WIDTH(DATA_WIDTH)
-    ) S_EXT_0_WORD (
+    ) EXT_0_WORD (
         .in(i_InstrD[15:0]), 
         .out_extend(SignImm0)
     );
-	
 	
     mux_2_to_1 #(
         .N(DATA_WIDTH)
@@ -66,8 +71,7 @@ module DECODE_STAGE #(
         .data_false(SignImmD),
         .sel(i_sign_selD),
         .data_out(o_SignImmD)
-    );	
-	
+    );		
     
 	wire [ADDRESS_WIDTH-1:0] PCBranchD;
     ADDER #(
@@ -83,7 +87,7 @@ module DECODE_STAGE #(
         .N(DATA_WIDTH)
     ) ForwardAMUX (
         .data_true(i_ALUOutM),
-        .data_false(SrcAD),
+        .data_false(o_SrcAD),
         .sel(i_ForwardAD),
         .data_out(CmpValAD)
     );
@@ -101,7 +105,7 @@ module DECODE_STAGE #(
 	 mux_4_to_1 #(
         .N(ADDRESS_WIDTH)
     ) PC_MUX (
-        .sel(i_PC_SELD),
+        .sel(i_PC_SelD),
         .in0(PCBranchD),
         .in1(CmpValAD),
         .in2({i_PCPlus4D[31:28], i_InstrD[25:0], 2'b00}),

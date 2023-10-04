@@ -1,7 +1,7 @@
 module FETCH_STAGE #(
     parameter ADDRESS_WIDTH = 32, // Defines the number of bits for the memory address
     parameter INSTR_WIDTH = 32, // Defines the number of bits for the instruction
-    parameter PROGRAM = "factorial.txt"
+    parameter PROGRAM = "simple.txt"
 )(
     input   wire                      i_CLK,
     input   wire                      i_RST,
@@ -14,7 +14,6 @@ module FETCH_STAGE #(
 );
     wire [ADDRESS_WIDTH-1: 0]  PCF;
     wire [ADDRESS_WIDTH-1: 0]  PC_Next;
-    wire [ADDRESS_WIDTH-1: 0]  imm_ext_internal;
 
 
     PRG_CNTR #(
@@ -28,7 +27,7 @@ module FETCH_STAGE #(
         .pc(PCF)           // Current PC output
     );
 
-    // Select the next PC value based on the instruction type       ///////////////here//////////////////
+    // Select the next PC value based on the instruction type    
     mux_2_to_1 pc_next_mux (
         .data_true(i_PCNextD),  // Target PC
         .data_false(o_PCPlus4F),  // PC+4
@@ -45,7 +44,7 @@ module FETCH_STAGE #(
         .Z(o_PCPlus4F)
     );
 
-    instr_mem #(
+    ROM #(
         .PROGRAM(PROGRAM)
     ) INSTRUCTION_MEMORY (
         .addr(PCF), // Input address wire
