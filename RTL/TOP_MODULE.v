@@ -10,9 +10,9 @@ module TOP_MODULE #(
 );
 
 
-    wire [ADDRESS_WIDTH-1:0]    PCBranchD;
     wire [INSTR_WIDTH-1:0]      InstrF;
     wire [ADDRESS_WIDTH-1:0]    PCPlus4F;
+    wire [ADDRESS_WIDTH-1:0]    PCNextD;
     wire StallF;
     wire PCSrcD;
     wire JumpD;
@@ -44,11 +44,11 @@ module TOP_MODULE #(
         .i_PCPlus4F(PCPlus4F),
         .i_InstrF(InstrF),
         .o_PCPlus4D(PCPlus4D),
-        .o_InstrD(InstrD),
+        .o_InstrD(InstrD)
     );
 	
 	
-    wire [RF_ADDR_WIDTH-1:0] WriteRegW;
+    wire [RF_ADDR_WIDTH-1:0]    WriteRegW;
     wire RegWriteW;
     wire ForwardAD;
     wire ForwardBD;
@@ -87,7 +87,6 @@ module TOP_MODULE #(
         .o_GTZD(GTZD),
         .o_LTZD(LTZD),
         .o_LTEZD(LTEZD),
-        .o_ShamtD(ShamtD),
         .o_ShamtD(ShamtD)
     );
 
@@ -112,10 +111,13 @@ module TOP_MODULE #(
     wire [1:0] RegDstD;
     wire [1:0] RegDstE;
 	wire [4:0]  ShamtE;
-	
-    wire [4:0]  ShamtE;
-	wire [2:0] MemDataSelD, MemDataSelE, MemDataSelM, MemDataSelW;
-	wire [1:0] RAM_selD, RAM_selE, RAM_selM ;
+	wire [2:0] MemDataSelD;
+	wire [2:0] MemDataSelE;
+	wire [2:0] MemDataSelM;
+	wire [2:0] MemDataSelW;
+	wire [1:0] RAM_selD;
+	wire [1:0] RAM_selE;
+	wire [1:0] RAM_selM;
 
     decode_to_execute_reg U3_DEC_TO_EXC(
         .i_CLK(CLK),
@@ -129,8 +131,7 @@ module TOP_MODULE #(
         .i_RdD(InstrD[15:11]),
         .i_SignImmD(SignImmD),
         .i_PCPlus4D(PCPlus4D),
-        .i_ShamtD(ShamtD)
-        .i_ShamtD(ShamtD)
+        .i_ShamtD(ShamtD),
         .o_SrcAE(SrcAE),
         .o_SrcBE(SrcBE),
         .o_RsE(RsE),
@@ -138,7 +139,6 @@ module TOP_MODULE #(
         .o_RdE(RdE),
         .o_SignImmE(SignImmE),
         .o_PCPlus4E(PCPlus4E),
-        .o_ShamtE(ShamtE),
         .o_ShamtE(ShamtE),
         // Control Signals,
         .i_RegWriteD(RegWriteD),
@@ -160,8 +160,8 @@ module TOP_MODULE #(
     );
 
 
-    wire ForwardAE;
-    wire ForwardBE;
+    wire [1:0] ForwardAE;
+    wire [1:0] ForwardBE;
     wire [RF_ADDR_WIDTH-1:0]    WriteRegE;
     wire [DATA_WIDTH-1:0]       WriteDataE;
     wire [DATA_WIDTH-1:0]       ALUOutE;
@@ -179,7 +179,6 @@ module TOP_MODULE #(
         .i_RsE(RsE),
         .i_RtE(RtE),
         .i_RdE(RdE),
-        .i_ShamtE(ShamtE),
         .i_ShamtE(ShamtE),
         .o_WriteRegE(WriteRegE),
         .o_WriteDataE(WriteDataE),
@@ -216,7 +215,8 @@ module TOP_MODULE #(
 		.o_RAM_selM(RAM_selM)		
     );
 
-    wire [DATA_WIDTH-1:0] ReadDataM, ReadDataW ;
+    wire [DATA_WIDTH-1:0] ReadDataM;
+    wire [DATA_WIDTH-1:0] ReadDataW;
 	wire MemDataSelM_Hazard;
     MEMORY_STAGE U6_MEM_ST(
         .i_CLK(CLK),
@@ -279,8 +279,8 @@ module TOP_MODULE #(
         .o_RegDstD(RegDstD),
         .o_BranchD(BranchD),
         .o_PCSrcD(PCSrcD),
-        .o_JumpD(Jump),
-        .o_JumpRD(JumpR),
+        .o_JumpD(JumpD),
+        .o_JumpRD(JumpRD),
         .o_LoadD(LoadD),
         .o_PC_SelD(PC_SelD),
 		.o_sign_selD(sign_selD),
@@ -288,11 +288,11 @@ module TOP_MODULE #(
 		.o_RAM_selD(RAM_selD)
     );
 	
-    Hazard_unit (
+    Hazard_unit U10_HAZARD_UNIT (
         .i_BranchD(BranchD),   //from control unit : BranchD = 1 in case of a bltz,beq,bne,blez or bgtz instr
         //pipeline registers
-        .i_RsD(RsD),
-        .i_RtD(RtD),
+        .i_RsD(InstrD[25:21]),
+        .i_RtD(InstrD[20:16]),
         .i_RsE(RsE),
         .i_RtE(RtE),
         .i_WriteRegE(WriteRegE),
@@ -314,11 +314,10 @@ module TOP_MODULE #(
         .o_FlushE(FlushE),
         .o_ForwardAE(ForwardAE),   //mux selectors for ALU sources
         .o_ForwardBE(ForwardBE),   //mux selectors for ALU sources
-        .i_JrD(JumpRD),                  //from control unit : JrD = 1 in case of a JR OR a JALR
-        .i_JD(Jump),				      //from control unit : JD = 1 in case of a J OR a JAL
+        .i_JrD(JumpRD),            //from control unit : JrD = 1 in case of a JR OR a JALR
+        .i_JD(JumpD),			   //from control unit : JD = 1 in case of a J OR a JAL
         .i_ALUSrcD(ALUSrcD)
 );
 	
-	
-	
+
 endmodule
