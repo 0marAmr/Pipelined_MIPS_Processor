@@ -46,7 +46,8 @@ class Random_Instruction;
     constraint Source_Reg_Constraint  { Source inside { [5'd16 : 5'd23] }; }
     constraint Source2_Reg_Constraint { Source2 inside { [5'd16 : 5'd23] };}
     constraint Dest_Reg_Constraint    { Dest inside { [5'd16 : 5'd23] };   }
-    constraint Address_IType_Constraint    { Address_IType inside { [16'd0 : 16'd65532] };   }   //0xFFFC= 65532 decimal
+    constraint Address_IType_Constraint    { Address_IType inside { [16'd0 : 16'd1023] };   }   
+    constraint Address_JType_Constraint    { Address_JType inside { [16'd0 : 16'd1023] };   }   
     
     function new; // Constructor
         randomize();
@@ -126,9 +127,10 @@ class Random_Instruction;
         // Read and process each line
         while (!$feof(file_handle)) begin
             if ($fscanf(file_handle, "%h", read_instruction)) begin
+                $fwrite(file_handle2,"\n ===== instrucion: %h  ===== \n", read_instruction);
                 case(read_instruction[31:26])
                     6'b000011: $fwrite(file_handle2, " OPCode = Jump and link to Address %d \n",read_instruction[ 25 : 0 ]);
-                    6'b000010: $fwrite(file_handle2, " OPCode = Jump to Address %d \n",read_instruction[ 25 : 0 ]);
+                    6'b000010: $fwrite(file_handle2, " OPCode = Jump to Address %h \n",read_instruction[ 25 : 0 ]);
 
                     6'b000000:begin
                         $fwrite(file_handle2,"\n the instrucion is R_type: ");
@@ -227,7 +229,7 @@ module testbench;
             $display("Random value: OpCode: %b  | Rs:  %b | Rt:  %b | Rd:  %b | sh:  %b | Func:%b | Address16: %b | Address26: %b ", test_item.Op_Code , test_item.Source, test_item.Source2 , test_item.Dest , test_item.shamt   , test_item.Inst_function , test_item.Address_IType , test_item.Address_JType);
             $display("\nInstruction : %b",Instruction);
 
-            $fwrite(file_handle, "%h\n%h\n%h\n%h\n", Instruction[7:0], Instruction[15:8], Instruction[23:16], Instruction[31:24]);
+            $fwrite(file_handle, "%h\n", Instruction);
         end
 
         // Close the file

@@ -1,0 +1,34 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../../RTL/submodules/ALU.v" \
+"../../../../../RTL/CONTROL_UNIT/ALU_DECODER.v" \
+"../../../../../RTL/CONTROL_UNIT/CONTROL_UNIT.v" \
+"../../../../../RTL/stages/DECODE_STAGE.v" \
+"../../../../../RTL/stages/EXECUTE_STAGE.v" \
+"../../../../../RTL/stages/FETCH_STAGE.v" \
+"../../../../../RTL/Hazard_unit.v" \
+"../../../../../RTL/CONTROL_UNIT/MAIN_DECODER.v" \
+"../../../../../RTL/stages/MEMORY_STAGE.v" \
+"../../../../../RTL/submodules/PRG_CNTR.v" \
+"../../../../../RTL/submodules/RAM.v" \
+"../../../../../RTL/submodules/REG_FILE.v" \
+"../../../../../RTL/submodules/ROM.v" \
+"../../../../../RTL/submodules/SIGN_EXT.v" \
+"../../../../../RTL/TOP_MODULE.v" \
+"../../../../../RTL/stages/WRITE_BACK_STAGE.v" \
+"../../../../../RTL/submodules/ZERO_EXT.v" \
+"../../../../../RTL/submodules/addr.v" \
+"../../../../../RTL/regs/decode_to_execute_reg.v" \
+"../../../../../RTL/regs/execute_to_memory_reg.v" \
+"../../../../../RTL/regs/fetch_to_decode_reg.v" \
+"../../../../../RTL/regs/memory_to_write_back_reg.v" \
+"../../../../../RTL/submodules/mux_2_to_1.v" \
+"../../../../../RTL/submodules/mux_4_to_1.v" \
+"../../../../../RTL/submodules/mux_8_to_1.v" \
+"../../../../../TBs/TOP_MODULE_TB.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

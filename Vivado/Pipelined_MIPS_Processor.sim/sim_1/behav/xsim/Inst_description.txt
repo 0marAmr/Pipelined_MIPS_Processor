@@ -1,0 +1,185 @@
+
+ ===== instrucion: a2f60102  ===== 
+OPCode = SB, Rs = 23, Rt = 22, Address/constant=   258 
+
+ ===== instrucion: 0c0002e0  ===== 
+ OPCode = Jump and link to Address      736 
+
+ ===== instrucion: 32f2005e  ===== 
+OPCode = ANDi, Rs = 23, Rt = 18, Address/constant=    94 
+
+ ===== instrucion: 2a7703ad  ===== 
+OPCode = SLTi, Rs = 19, Rt = 23, Address/constant=   941 
+
+ ===== instrucion: 02f4a823  ===== 
+
+ the instrucion is R_type: OPCode = Sub Unsigned, Rs = 23, Rt = 20, Rd= 21, Shamt= 0 
+
+ ===== instrucion: 16f30398  ===== 
+OPCode = BNE, Rs = 23, Rt = 19, Address/constant=   920 
+
+ ===== instrucion: 22560208  ===== 
+OPCode = ADDi, Rs = 18, Rt = 22, Address/constant=   520 
+
+ ===== instrucion: 080003b5  ===== 
+ OPCode = Jump to Address 00003b5 
+
+ ===== instrucion: 0c0002b4  ===== 
+ OPCode = Jump and link to Address      692 
+
+ ===== instrucion: 1a7203a6  ===== 
+OPCode = BLEZ, Rs = 19, Rt = 18, Address/constant=   934 
+
+ ===== instrucion: 3af70008  ===== 
+OPCode = XORi, Rs = 23, Rt = 23, Address/constant=     8 
+
+ ===== instrucion: 2294019a  ===== 
+OPCode = ADDi, Rs = 20, Rt = 20, Address/constant=   410 
+
+ ===== instrucion: a6b5014b  ===== 
+OPCode = SH, Rs = 21, Rt = 21, Address/constant=   331 
+
+ ===== instrucion: 1a160054  ===== 
+OPCode = BLEZ, Rs = 16, Rt = 22, Address/constant=    84 
+
+ ===== instrucion: 32520044  ===== 
+OPCode = ANDi, Rs = 18, Rt = 18, Address/constant=    68 
+
+ ===== instrucion: 1e300012  ===== 
+OPCode = BGTZ, Rs = 17, Rt = 16, Address/constant=    18 
+
+ ===== instrucion: 36520025  ===== 
+OPCode = ORi, Rs = 18, Rt = 18, Address/constant=    37 
+
+ ===== instrucion: 1a100078  ===== 
+OPCode = BLEZ, Rs = 16, Rt = 16, Address/constant=   120 
+
+ ===== instrucion: 0c0002c3  ===== 
+ OPCode = Jump and link to Address      707 
+
+ ===== instrucion: 080003ec  ===== 
+ OPCode = Jump to Address 00003ec 
+
+ ===== instrucion: 92f4036f  ===== 
+OPCode = LBU, Rs = 23, Rt = 20, Address/constant=   879 
+
+ ===== instrucion: aef001b9  ===== 
+OPCode = SW, Rs = 23, Rt = 16, Address/constant=   441 
+
+ ===== instrucion: 36f30266  ===== 
+OPCode = ORi, Rs = 23, Rt = 19, Address/constant=   614 
+
+ ===== instrucion: 0c0000c7  ===== 
+ OPCode = Jump and link to Address      199 
+
+ ===== instrucion: 86b20047  ===== 
+OPCode = LH, Rs = 21, Rt = 18, Address/constant=    71 
+
+ ===== instrucion: 1e9602f9  ===== 
+OPCode = BGTZ, Rs = 20, Rt = 22, Address/constant=   761 
+
+ ===== instrucion: 36b703b0  ===== 
+OPCode = ORi, Rs = 21, Rt = 23, Address/constant=   944 
+
+ ===== instrucion: 3a5600c5  ===== 
+OPCode = XORi, Rs = 18, Rt = 22, Address/constant=   197 
+
+ ===== instrucion: 22d2016d  ===== 
+OPCode = ADDi, Rs = 22, Rt = 18, Address/constant=   365 
+
+ ===== instrucion: 269202c0  ===== 
+OPCode = ADDiu, Rs = 20, Rt = 18, Address/constant=   704 
+
+ ===== instrucion: 1e7500ca  ===== 
+OPCode = BGTZ, Rs = 19, Rt = 21, Address/constant=   202 
+
+ ===== instrucion: 06900282  ===== 
+OPCode = BLTZ, Rs = 20, Rt = 16, Address/constant=   642
+ 
+ ===== instrucion: 96370322  ===== 
+OPCode = LHU, Rs = 17, Rt = 23, Address/constant=   802 
+
+ ===== instrucion: 8e70039f  ===== 
+OPCode = LW, Rs = 19, Rt = 16, Address/constant=   927 
+
+ ===== instrucion: 42b3a800  ===== 
+OPCode = MFC0, Rs = 21, Rt = 19, Rd= 21, Shamt= 0 
+
+ ===== instrucion: 229102eb  ===== 
+OPCode = ADDi, Rs = 20, Rt = 17, Address/constant=   747 
+
+ ===== instrucion: 82f40365  ===== 
+OPCode = LB, Rs = 23, Rt = 20, Address/constant=   869 
+
+ ===== instrucion: 065601fb  ===== 
+OPCode = BLTZ, Rs = 18, Rt = 22, Address/constant=   507
+ 
+ ===== instrucion: 92740217  ===== 
+OPCode = LBU, Rs = 19, Rt = 20, Address/constant=   535 
+
+ ===== instrucion: 3ab7031c  ===== 
+OPCode = XORi, Rs = 21, Rt = 23, Address/constant=   796 
+
+ ===== instrucion: 061501cf  ===== 
+OPCode = BLTZ, Rs = 16, Rt = 21, Address/constant=   463
+ 
+ ===== instrucion: 06d10245  ===== 
+OPCode = BLTZ, Rs = 22, Rt = 17, Address/constant=   581
+ 
+ ===== instrucion: a6d603a0  ===== 
+OPCode = SH, Rs = 22, Rt = 22, Address/constant=   928 
+
+ ===== instrucion: 825503a4  ===== 
+OPCode = LB, Rs = 18, Rt = 21, Address/constant=   932 
+
+ ===== instrucion: 36520071  ===== 
+OPCode = ORi, Rs = 18, Rt = 18, Address/constant=   113 
+
+ ===== instrucion: a69000e4  ===== 
+OPCode = SH, Rs = 20, Rt = 16, Address/constant=   228 
+
+ ===== instrucion: a2d600b9  ===== 
+OPCode = SB, Rs = 22, Rt = 22, Address/constant=   185 
+
+ ===== instrucion: 3af40229  ===== 
+OPCode = XORi, Rs = 23, Rt = 20, Address/constant=   553 
+
+ ===== instrucion: 02b7b822  ===== 
+
+ the instrucion is R_type: OPCode = Sub, Rs = 21, Rt = 23, Rd= 23, Shamt= 0 
+
+ ===== instrucion: a6760216  ===== 
+OPCode = SH, Rs = 19, Rt = 22, Address/constant=   534 
+
+ ===== instrucion: 96f20215  ===== 
+OPCode = LHU, Rs = 23, Rt = 18, Address/constant=   533 
+
+ ===== instrucion: 42558800  ===== 
+OPCode = MFC0, Rs = 18, Rt = 21, Rd= 17, Shamt= 0 
+
+ ===== instrucion: 9633021d  ===== 
+OPCode = LHU, Rs = 17, Rt = 19, Address/constant=   541 
+
+ ===== instrucion: 42d18000  ===== 
+OPCode = MFC0, Rs = 22, Rt = 17, Rd= 16, Shamt= 0 
+
+ ===== instrucion: 08000208  ===== 
+ OPCode = Jump to Address 0000208 
+
+ ===== instrucion: 8633029d  ===== 
+OPCode = LH, Rs = 17, Rt = 19, Address/constant=   669 
+
+ ===== instrucion: 365500a4  ===== 
+OPCode = ORi, Rs = 18, Rt = 21, Address/constant=   164 
+
+ ===== instrucion: 127203bd  ===== 
+OPCode = BEQ, Rs = 19, Rt = 18, Address/constant=   957 
+
+ ===== instrucion: 36d201bc  ===== 
+OPCode = ORi, Rs = 22, Rt = 18, Address/constant=   444 
+
+ ===== instrucion: 32b202e8  ===== 
+OPCode = ANDi, Rs = 21, Rt = 18, Address/constant=   744 
+
+ ===== instrucion: 32b202e8  ===== 
+OPCode = ANDi, Rs = 21, Rt = 18, Address/constant=   744 

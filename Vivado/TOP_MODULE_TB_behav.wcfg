@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="TOP_MODULE_TB_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="TOP_MODULE_TB" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0 ps"></ZoomStartTime>
+      <ZoomEndTime time="52 ps"></ZoomEndTime>
+      <Cursor1Time time="17 ps"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="230"></NameColumnWidth>
+      <ValueColumnWidth column_width="99"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="6" />
+   <wvobject fp_name="/TOP_MODULE_TB/CLK" type="logic">
+      <obj_property name="ElementShortName">CLK</obj_property>
+      <obj_property name="ObjectShortName">CLK</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_MODULE_TB/RST" type="logic">
+      <obj_property name="ElementShortName">RST</obj_property>
+      <obj_property name="ObjectShortName">RST</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_MODULE_TB/DUT/U0_FET_ST/o_InstrF" type="array">
+      <obj_property name="ElementShortName">o_InstrF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_InstrF[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_MODULE_TB/DUT/U2_DEC_ST/i_InstrD" type="array">
+      <obj_property name="ElementShortName">i_InstrD[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_InstrD[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_MODULE_TB/DUT/U0_FET_ST/PCF" type="array">
+      <obj_property name="ElementShortName">PCF[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PCF[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/TOP_MODULE_TB/DUT/U0_FET_ST/i_PCSrcD" type="logic">
+      <obj_property name="ElementShortName">i_PCSrcD</obj_property>
+      <obj_property name="ObjectShortName">i_PCSrcD</obj_property>
+   </wvobject>
+</wave_config>
