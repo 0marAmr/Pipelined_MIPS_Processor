@@ -1,5 +1,5 @@
 module MAIN_DECODER(
-    input wire [6:0]    op, // 7-bit input signal op
+    input wire [5:0]    op, // 7-bit input signal op
     input wire [5:0]    funct,
     input wire          i_EqualD, i_GTZD, i_LTZD, i_LTEZD,	
     output reg          regwrite,

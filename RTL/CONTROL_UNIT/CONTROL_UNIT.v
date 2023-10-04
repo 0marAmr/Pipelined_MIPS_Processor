@@ -1,7 +1,10 @@
 module CONTROL_UNIT(
     input    wire [5:0]                 i_Op,
     input    wire [5:0]                 i_funct,
-    input    wire                       i_EqualD, i_GTZD, i_LTZD, i_LTEZD,
+    input    wire                       i_EqualD,
+    input    wire                       i_GTZD,
+    input    wire                       i_LTZD,
+    input    wire                       i_LTEZD,
     output   wire                       o_RegWriteD,
     output   wire [1:0]                 o_MemtoRegD,
     output   wire                       o_MemWriteD,
@@ -23,6 +26,7 @@ module CONTROL_UNIT(
 	wire PCSrcD;
     MAIN_DECODER MAIN_DEC(
         .op(i_Op),
+        .funct(i_funct),
         .regwrite(o_RegWriteD),
         .memtoreg(o_MemtoRegD),
         .memwrite(o_MemWriteD),
@@ -44,7 +48,7 @@ module CONTROL_UNIT(
 		.RAM_sel(o_RAM_selD)
     );
 
-    ALU_Controller (
+    ALU_DECODER ALU_DEC(
         .funct(i_funct),
         .alu_op(alu_op),
         .ALUControl(o_ALUControlD)
