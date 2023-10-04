@@ -1,4 +1,4 @@
-module sign_extend_0 #(
+module ZERO_EXT #(
     parameter   INPUT_WIDTH=8,
                 OUTPUT_WIDTH=32
 )(
