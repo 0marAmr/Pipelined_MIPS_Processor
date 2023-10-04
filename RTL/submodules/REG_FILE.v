@@ -15,7 +15,7 @@ module REG_FILE
     );
 
     // storage elements
-    reg [RF_DATA_WIDTH-1 : 0] array_reg [2**RF_ADDR_WIDTH-1 : 0];
+    reg [RF_DATA_WIDTH-1 : 0] array_reg [0:2**RF_ADDR_WIDTH-1];
     integer i;
     always @(posedge clk or negedge n_reset)  begin
         if(~n_reset)
